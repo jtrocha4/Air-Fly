@@ -1,9 +1,10 @@
-const { empleadoModel, sequelize } = require("../models")
+const { baseAereaModel, sequelize, avionModel, empleadoModel } = require("../models")
 
-class empleadoService {
+class baseAereaService {
 
-    async getEmpleado(id) {
-        return empleadoModel.findOne({
+    async getBaseAerea(id) {
+        return baseAereaModel.findOne({
+            include:[{model:avionModel},{model:empleadoModel}],
             where: {
                 id,
                 estado: 1
@@ -11,40 +12,41 @@ class empleadoService {
         })
     }
 
-    async getEmpleados(where) {
-        return empleadoModel.findAll({
+    async getBasesAereas(where) {
+        return baseAereaModel.findAll({
+            include:[{model:avionModel},{model:empleadoModel}],
             where: {
                 ...where,
                 estado: 1
-            }
+            },
+            attributes: {exclude: ["id_avion", "id_empleado"]}
         })
     }
 
-    async createEmpleado(data) {
-        const transaccion = await sequelize.transaction()
+    async CreateBase (data) {
+        const transaccion = sequelize.transation();
         try {
-            const { id: newEmpleado } = await empleadoModel.create(
-                data,
-                {
-                    transaction: transaccion
-                })
+            const {id:NewBase} = await baseAereaModel.create(
+                data,{
+                    transation:transaccion
+                }
+                )
             await transaccion.commit()
-            return {
-                id: newEmpleado,
-                message: "La creacion ha sido exitosa"
+            return{
+                message:"La creacion ha sido exitosa"
             }
         } catch (error) {
             await transaccion.rollback()
-            return {
-                message: "Hubo un error en la creacion"
+            return{
+                message:"Hubo un error en la creacion"
             }
         }
     }
 
-    async updateEmpleado(id, data) {
+    async updateBaseAerea(id, data) {
         const transaccion = await sequelize.transaction()
         try {
-            await empleadoModel.update(
+            await baseAereaModel.update(
                 data,
                 {
                     where: { id },
@@ -63,10 +65,10 @@ class empleadoService {
         }
     }
 
-    async deleteEmpleado(id) {
+    async deleteBaseaerea(id) {
         const transaccion = await sequelize.transaction()
         try {
-            await empleadoModel.update({
+            await baseAereaModel.update({
                 estado: -1
             },
                 {
@@ -76,7 +78,7 @@ class empleadoService {
             await transaccion.commit()
             return {
                 id,
-                message: "Empleado eliminado correctamente"
+                message: "Base aerea eliminada correctamente"
             }
         } catch (error) {
             await transaccion.rollback()
@@ -86,7 +88,6 @@ class empleadoService {
             }
         }
     }
-
 }
 
-module.exports = empleadoService;
+module.exports = baseAereaService;

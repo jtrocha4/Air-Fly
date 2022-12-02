@@ -8,6 +8,7 @@ app.use(cors())
 
 const configuracion = require("./config/config")
 
+//Modelos
 require("./models/index")
 
 //Servicios
@@ -16,6 +17,9 @@ const avionsService = new AvionService();
 
 const EmpleadoService = require("./services/empleado")
 const empleadosService = new EmpleadoService();
+
+const baseAereaService = require("./services/baseArea")
+const baseAereasService = new baseAereaService();
 
 //EndPoint
 
@@ -60,11 +64,16 @@ app.delete('/avion/:id', async (req, res) => {
   res.send(result)
 })
 
+//Consulta de empleado por id
+app.get('/empleado/:id', async (req, res) => {
+  const avion = await empleadosService.getEmpleado(req.params.id)
+  res.send(avion)
+})
 
 //Consulta de todos los empleado
-app.post('/empleado/getEmpleado', async (req, res) => {
+app.post('/empleado/getEmpleados', async (req, res) => {
   const body = req.body
-  const result = await empleadosService.getEmpleado(body)
+  const result = await empleadosService.getEmpleados(body)
   res.send(result)
 })
 
@@ -85,6 +94,39 @@ app.put('/empleado/:id', async (req, res) => {
 //Delete de avion
 app.delete('/empleado/:id', async (req, res) => {
   const result = await empleadosService.deleteEmpleado(req.params.id)
+  res.send(result)
+})
+
+//Consulta de bases areas por id
+app.get('/baseAerea/:id', async (req, res) => {
+  const avion = await baseAereasService.getBaseAerea(req.params.id)
+  res.send(avion)
+})
+
+//Consultar todos las bases
+app.post('/baseAerea/getBases', async (req, res) => {
+  const body = req.body
+  const result = await baseAereasService.getBasesAereas(body)
+  res.send(result)
+})
+
+//Create de empleado
+app.post('/baseAerea/', async (req, res) => {
+  const body = req.body
+  const result = await baseAereasService.CreateBase(body)
+  res.send(result)
+})
+
+//Update de empleado
+app.put('/baseAerea/:id', async (req, res) => {
+  const body = req.body
+  const result = await baseAereasService.updateBaseAerea(req.params.id, body)
+  res.send(result)
+})
+
+//Delete de avion
+app.delete('/baseAerea/:id', async (req, res) => {
+  const result = await baseAereasService.deleteBaseaerea(req.params.id)
   res.send(result)
 })
 

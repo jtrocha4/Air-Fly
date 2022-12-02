@@ -11,14 +11,20 @@ const sequelize = new Sequelize(
   }
 );
 
+//Modelos
 const avionModel = require("./avion")(
+  sequelize,
+  Sequelize.DataTypes
+)
+
+const empleadoModel = require("./empleado")(
   sequelize,
   Sequelize.DataTypes
 )
 
 sequelize.sync()
 
-module.exports = { avionModel, sequelize }
+module.exports = { avionModel, sequelize, empleadoModel}
 
 // sequelize.authenticate().then(() => {
 //   console.log('Connection has been established successfully.');

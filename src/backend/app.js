@@ -14,6 +14,9 @@ require("./models/index")
 const AvionService = require("./services/avion")
 const avionsService = new AvionService();
 
+const EmpleadoService = require("./services/empleado")
+const empleadosService = new EmpleadoService();
+
 //EndPoint
 
 app.get('/', (req, res) => {
@@ -54,6 +57,34 @@ app.put('/avion/:id', async (req, res) => {
 //Delete de avion
 app.delete('/avion/:id', async (req, res) => {
   const result = await avionsService.deleteAvion(req.params.id)
+  res.send(result)
+})
+
+
+//Consulta de todos los empleado
+app.post('/empleado/getEmpleado', async (req, res) => {
+  const body = req.body
+  const result = await empleadosService.getEmpleado(body)
+  res.send(result)
+})
+
+//Create de empleado
+app.post('/empleado/', async (req, res) => {
+  const body = req.body
+  const result = await empleadosService.createEmpleado(body)
+  res.send(result)
+})
+
+//Update de empleado
+app.put('/empleado/:id', async (req, res) => {
+  const body = req.body
+  const result = await empleadosService.updateEmpleado(req.params.id, body)
+  res.send(result)
+})
+
+//Delete de avion
+app.delete('/empleado/:id', async (req, res) => {
+  const result = await empleadosService.deleteEmpleado(req.params.id)
   res.send(result)
 })
 

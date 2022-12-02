@@ -1,14 +1,13 @@
 import './App.css';
-import Formulario from './components/Formulario';
+import FormularioAvion from './components/FormularioAvion';
 
 function App() {
   return (
     <div className="App">
 
-      <h1>NauticApp</h1>
+      <h1>Fly Air</h1>
+      <FormularioAvion></FormularioAvion>
 
-      <Formulario></Formulario>
-      
     </div>
   );
 }

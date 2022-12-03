@@ -119,6 +119,11 @@ function FormularioEmpleado() {
         try {
             await axios.delete(`/empleado/${id}`, {});
             getEmpleados();
+            Swal.fire({
+                icon: 'success',
+                title: 'Exito',
+                text: 'Los datos se han eliminado exitosamente',
+            })
         } catch (error) {
             console.log(error)
         }

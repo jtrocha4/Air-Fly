@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from '../api';
-
+import Swal from 'sweetalert2'
 
 function FormularioAvion() {
 
@@ -9,6 +9,7 @@ function FormularioAvion() {
         codigo: "",
         id_tipo_ea: "",
     });
+    const [edicion, setEdicion] = React.useState(false)
 
     const onInputChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -28,34 +29,68 @@ function FormularioAvion() {
         }
     }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const create = async (e) => {
+        e.preventDefault()
         try {
             if (form.codigo.trim() && form.id_tipo_ea.trim()) {
-                if (form.updateId) {
-                    await axios.put(`/avion/${form.updateId}`, {
-                        codigo: form.codigo,
-                        id_tipo_ea: form.id_tipo_ea,
-                    });
-                    getAviones();
-                    setForm({ codigo: "", id_tipo_ea: "" });
-                } else {
-                    await axios.post("/avion/", form);
-                    getAviones();
-                    setForm({ codigo: "", id_tipo_ea: "" });
-                }
+                await axios.post("/avion/", form)
+                getAviones()
+                setForm({ codigo: "", id_tipo_ea: "" })
+                setEdicion(false)
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Exito',
+                    text: 'Los datos se han guardado exitosamente',
+                })
             } else {
-                console.log("Por favor ingrese todos los datos")
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Por favor rellene todos los campos',
+                })
             }
         } catch (error) {
             console.log(error)
         }
-    };
+    }
+
+    const update = async (e) => {
+        e.preventDefault()
+        try {
+            if (form.updateId) {
+                axios.put(`/avion/${form.updateId}`, {
+                    codigo: form.codigo,
+                    id_tipo_ea: form.id_tipo_ea
+                })
+                getAviones();
+                setForm({ codigo: "", id_tipo_ea: "" });
+                setEdicion(false)
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Exito',
+                    text: 'Los datos se han editado exitosamente',
+                })
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Hubo un error al editar los datos',
+                })
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     const handleDelete = async (id) => {
         try {
             await axios.delete(`/avion/${id}`, {});
             getAviones();
+            Swal.fire({
+                icon: 'success',
+                title: 'Exito',
+                text: 'Los datos se han eliminado exitosamente',
+            })
         } catch (error) {
             console.log(error)
         }
@@ -63,13 +98,19 @@ function FormularioAvion() {
 
     const handleUpdateClick = (data) => {
         setForm({ updateId: data.id, codigo: data.codigo, id_tipo_ea: data.id_tipo_ea })
+        setEdicion(true)
+    }
+
+    const cancelar = () => {
+        setForm({ codigo: "", id_tipo_ea: "" })
+        setEdicion(false)
     }
 
     return (
         <div className='container'>
             <div className="col mt-2">
                 <h4 className='text-center'>Registro de Avion</h4>
-                <form action="" onSubmit={handleSubmit}>
+                <form action="" onSubmit={(edicion) ? (update) : (create)}>
                     <div className='mb-3'>
                         <label htmlFor="codigo" className='form-label'>Codigo</label>
                         <input type="text" className='form-control' name='codigo' id='codigo' value={form.codigo} onChange={onInputChange} />
@@ -79,7 +120,8 @@ function FormularioAvion() {
                         <label htmlFor="tipoAvion" className='form-label'>Tipo de avion</label>
                         <input type="text" className='form-control' name='id_tipo_ea' id='tipoAvion' value={form.id_tipo_ea} onChange={onInputChange} />
                     </div>
-                    <button className='btn btn-primary'>Crear</button>
+                    <button className='btn btn-primary'>{(edicion) ? (<>Editar</>) : (<>Crear</>)}</button>
+                    <button type='button' className='btn btn-secondary ms-2' onClick={() => cancelar()}>Cancelar</button>
                 </form>
 
                 <br />

@@ -27,6 +27,11 @@ const baseAereaModel = require ("./baseAerea")(
   Sequelize.DataTypes
 )
 
+const parametroModel = require("./parametro")(
+  sequelize,
+  Sequelize.DataTypes
+)
+
 //Relaciones
 avionModel.hasMany(baseAereaModel, {
   foreignKey: "id_avion"
@@ -46,7 +51,7 @@ baseAereaModel.belongsTo(empleadoModel, {
 
 sequelize.sync()
 
-module.exports = { avionModel, sequelize, empleadoModel, baseAereaModel}
+module.exports = { avionModel, sequelize, empleadoModel, baseAereaModel, parametroModel}
 
 // sequelize.authenticate().then(() => {
 //   console.log('Connection has been established successfully.');

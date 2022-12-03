@@ -21,6 +21,9 @@ const empleadosService = new EmpleadoService();
 const baseAereaService = require("./services/baseArea")
 const baseAereasService = new baseAereaService();
 
+const parametroService = require("./services/parametro")
+const parametrosService = new parametroService();
+
 //EndPoint
 
 app.get('/', (req, res) => {
@@ -33,8 +36,8 @@ app.post('/', (req, res) => {
 
 //Consulta de avion por id
 app.get('/avion/:id', async (req, res) => {
-  const avion = await avionsService.getAvion(req.params.id)
-  res.send(avion)
+  const result = await avionsService.getAvion(req.params.id)
+  res.send(result)
 })
 
 //Consulta de todos los aviones
@@ -64,10 +67,11 @@ app.delete('/avion/:id', async (req, res) => {
   res.send(result)
 })
 
+
 //Consulta de empleado por id
 app.get('/empleado/:id', async (req, res) => {
-  const avion = await empleadosService.getEmpleado(req.params.id)
-  res.send(avion)
+  const result = await empleadosService.getEmpleado(req.params.id)
+  res.send(result)
 })
 
 //Consulta de todos los empleado
@@ -127,6 +131,40 @@ app.put('/baseAerea/:id', async (req, res) => {
 //Delete de avion
 app.delete('/baseAerea/:id', async (req, res) => {
   const result = await baseAereasService.deleteBaseaerea(req.params.id)
+  res.send(result)
+})
+
+
+//Consulta de Parametro por id
+app.get('/parametro/:id', async (req, res) => {
+  const result = await parametrosService.getParametro(req.params.id)
+  res.send(result)
+})
+
+//Consulta de todos los aviones
+app.post('/parametro/getParametros', async (req, res) => {
+  const body = req.body
+  const result = await parametrosService.getParametros(body)
+  res.send(result)
+})
+
+//Create de avion
+app.post('/parametro/', async (req, res) => {
+  const body = req.body
+  const result = await parametrosService.createParametro(body)
+  res.send(result)
+})
+
+//Update de avion
+app.put('/parametro/:id', async (req, res) => {
+  const body = req.body
+  const result = await parametrosService.updateParametro(req.params.id, body)
+  res.send(result)
+})
+
+//Delete de avion
+app.delete('/parametro/:id', async (req, res) => {
+  const result = await parametrosService.deleteParametro(req.params.id)
   res.send(result)
 })
 

@@ -2,16 +2,7 @@ import axios from '../api';
 import React, { useEffect } from 'react'
 import Swal from 'sweetalert2'
 
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    Routes
-} from "react-router-dom";
-
 function FormularioParametro() {
-    //falta editar
     const [edicion, setEdicion] = React.useState(false)
     const [parametro, setParametro] = React.useState([])
     const [form, setForm] = React.useState({

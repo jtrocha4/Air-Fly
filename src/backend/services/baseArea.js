@@ -4,7 +4,7 @@ class baseAereaService {
 
     async getBaseAerea(id) {
         return baseAereaModel.findOne({
-            include:[{model:avionModel},{model:empleadoModel}],
+            include: [{ model: avionModel }, { model: empleadoModel }],
             where: {
                 id,
                 estado: 1
@@ -14,32 +14,32 @@ class baseAereaService {
 
     async getBasesAereas(where) {
         return baseAereaModel.findAll({
-            include:[{model:avionModel},{model:empleadoModel}],
+            include: [{ model: avionModel }, { model: empleadoModel }],
             where: {
                 ...where,
                 estado: 1
             },
-            attributes: {exclude: ["id_avion", "id_empleado"]}
+            attributes: { exclude: ["id_avion", "id_empleado"] }
         })
     }
 
-    async CreateBase (data) {
+    async CreateBase(data) {
         const transaccion = sequelize.transation();
         try {
-            const {id:NewBase} = await baseAereaModel.create(
-                data,{
-                    transation:transaccion
-                }
-                )
+            const { id: NewBase } = await baseAereaModel.create(
+                data, {
+                transation: transaccion
+            }
+            )
             await transaccion.commit()
-            return{
+            return {
                 id: NewBase,
-                message:"La creacion ha sido exitosa"
+                message: "La creacion ha sido exitosa"
             }
         } catch (error) {
             await transaccion.rollback()
-            return{
-                message:"Hubo un error en la creacion"
+            return {
+                message: "Hubo un error en la creacion"
             }
         }
     }

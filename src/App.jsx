@@ -11,6 +11,7 @@ import {
   Link,
   Routes
 } from "react-router-dom";
+import FormularioValorParametro from './components/FormularioValorParametro';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route exact path='/avion' element={<FormularioAvion></FormularioAvion>}></Route>
           <Route exact path='/empleado' element={<FormularioEmpleado></FormularioEmpleado>}></Route>
           <Route exact path='/parametro' element={<FormularioParametro></FormularioParametro>}></Route>
+          <Route exact path='/valorParametro' element={<FormularioValorParametro></FormularioValorParametro>}></Route>
         </Routes>
       </Router>
 

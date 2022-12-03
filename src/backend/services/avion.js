@@ -50,7 +50,7 @@ class avionService {
                     where: { id },
                     transaction: transaccion
                 })
-            transaccion.commit()
+            await transaccion.commit()
             return {
                 data,
                 message: "La actualizacion de los datos se ha hecho correctamente"

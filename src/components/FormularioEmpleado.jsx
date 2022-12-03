@@ -88,7 +88,7 @@ function FormularioEmpleado() {
         e.preventDefault()
         try {
             if (form.updateId) {
-                axios.put(`/empleado/${form.updateId}`, {
+                await axios.put(`/empleado/${form.updateId}`, {
                     codigo: form.codigo,
                     nombre: form.nombre,
                     telefono: form.telefono,
@@ -140,7 +140,7 @@ function FormularioEmpleado() {
     }
 
     return (
-        <div>
+        <div className='container'>
             <div className="col mt-2">
                 <h4 className='text-center'>Registro de Empleados</h4>
                 <form action="" onSubmit={edicion ? (update) : (create)}>

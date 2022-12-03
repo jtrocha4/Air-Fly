@@ -1,10 +1,9 @@
-const { baseAereaModel, sequelize, avionModel, empleadoModel } = require("../models")
+const { valorParametroModel, sequelize } = require("../models")
 
-class baseAereaService {
+class valorParametroService {
 
-    async getBaseAerea(id) {
-        return baseAereaModel.findOne({
-            include:[{model:avionModel},{model:empleadoModel}],
+    async getValorParametro(id) {
+        return valorParametroModel.findOne({
             where: {
                 id,
                 estado: 1
@@ -12,42 +11,40 @@ class baseAereaService {
         })
     }
 
-    async getBasesAereas(where) {
-        return baseAereaModel.findAll({
-            include:[{model:avionModel},{model:empleadoModel}],
+    async getValorParametros(where) {
+        return valorParametroModel.findAll({
             where: {
                 ...where,
                 estado: 1
-            },
-            attributes: {exclude: ["id_avion", "id_empleado"]}
+            }
         })
     }
 
-    async CreateBase (data) {
-        const transaccion = sequelize.transation();
+    async createValorParametro(data) {
+        const transaccion = await sequelize.transaction()
         try {
-            const {id:NewBase} = await baseAereaModel.create(
-                data,{
-                    transation:transaccion
-                }
-                )
+            const { id: newValorParametro } = await valorParametroModel.create(
+                data,
+                {
+                    transaction: transaccion
+                })
             await transaccion.commit()
-            return{
-                id: NewBase,
-                message:"La creacion ha sido exitosa"
+            return {
+                id: newValorParametro,
+                message: "La creacion ha sido exitosa"
             }
         } catch (error) {
             await transaccion.rollback()
-            return{
-                message:"Hubo un error en la creacion"
+            return {
+                message: "Hubo un error en la creacion"
             }
         }
     }
 
-    async updateBaseAerea(id, data) {
+    async updateValorParametro(id, data) {
         const transaccion = await sequelize.transaction()
         try {
-            await baseAereaModel.update(
+            await valorParametroModel.update(
                 data,
                 {
                     where: { id },
@@ -66,10 +63,10 @@ class baseAereaService {
         }
     }
 
-    async deleteBaseaerea(id) {
+    async deleteValorParametro(id) {
         const transaccion = await sequelize.transaction()
         try {
-            await baseAereaModel.update({
+            await valorParametroModel.update({
                 estado: -1
             },
                 {
@@ -79,7 +76,7 @@ class baseAereaService {
             await transaccion.commit()
             return {
                 id,
-                message: "Base aerea eliminada correctamente"
+                message: "Parametro eliminado correctamente"
             }
         } catch (error) {
             await transaccion.rollback()
@@ -91,4 +88,4 @@ class baseAereaService {
     }
 }
 
-module.exports = baseAereaService;
+module.exports = valorParametroService;

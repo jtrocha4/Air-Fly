@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
     return sequelize.define(
-        "parametro",
+        "valor_parametro",
         {
             id: {
                 type: DataTypes.BIGINT,
@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
         {
-            tableName: "parametro",
+            tableName: "valor_parametro",
             timestamps: false,
         });
 }

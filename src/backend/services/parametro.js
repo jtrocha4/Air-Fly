@@ -23,14 +23,14 @@ class parametroService {
     async createParametro(data) {
         const transaccion = await sequelize.transaction()
         try {
-            const { id: newAvion } = await parametroModel.create(
+            const { id: newParametro } = await parametroModel.create(
                 data,
                 {
                     transaction: transaccion
                 })
             await transaccion.commit()
             return {
-                id: newAvion,
+                id: newParametro,
                 message: "La creacion ha sido exitosa"
             }
         } catch (error) {
@@ -86,8 +86,6 @@ class parametroService {
             }
         }
     }
-
-
 
 }
 

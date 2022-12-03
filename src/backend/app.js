@@ -24,6 +24,9 @@ const baseAereasService = new baseAereaService();
 const parametroService = require("./services/parametro")
 const parametrosService = new parametroService();
 
+const valorParametroService = require("./services/valorParametro")
+const valorParametrosService = new valorParametroService();
+
 //EndPoint
 
 app.get('/', (req, res) => {
@@ -95,11 +98,12 @@ app.put('/empleado/:id', async (req, res) => {
   res.send(result)
 })
 
-//Delete de avion
+//Delete de empleado
 app.delete('/empleado/:id', async (req, res) => {
   const result = await empleadosService.deleteEmpleado(req.params.id)
   res.send(result)
 })
+
 
 //Consulta de bases areas por id
 app.get('/baseAerea/:id', async (req, res) => {
@@ -114,57 +118,91 @@ app.post('/baseAerea/getBases', async (req, res) => {
   res.send(result)
 })
 
-//Create de empleado
+//Create de base aerea
 app.post('/baseAerea/', async (req, res) => {
   const body = req.body
   const result = await baseAereasService.CreateBase(body)
   res.send(result)
 })
 
-//Update de empleado
+//Update de base aerea
 app.put('/baseAerea/:id', async (req, res) => {
   const body = req.body
   const result = await baseAereasService.updateBaseAerea(req.params.id, body)
   res.send(result)
 })
 
-//Delete de avion
+//Delete de base aerea
 app.delete('/baseAerea/:id', async (req, res) => {
   const result = await baseAereasService.deleteBaseaerea(req.params.id)
   res.send(result)
 })
 
 
-//Consulta de Parametro por id
+//Consulta de parametro por id
 app.get('/parametro/:id', async (req, res) => {
   const result = await parametrosService.getParametro(req.params.id)
   res.send(result)
 })
 
-//Consulta de todos los aviones
+//Consulta de todos los parametro
 app.post('/parametro/getParametros', async (req, res) => {
   const body = req.body
   const result = await parametrosService.getParametros(body)
   res.send(result)
 })
 
-//Create de avion
+//Create de parametro
 app.post('/parametro/', async (req, res) => {
   const body = req.body
   const result = await parametrosService.createParametro(body)
   res.send(result)
 })
 
-//Update de avion
+//Update de parametro
 app.put('/parametro/:id', async (req, res) => {
   const body = req.body
   const result = await parametrosService.updateParametro(req.params.id, body)
   res.send(result)
 })
 
-//Delete de avion
+//Delete de parametro
 app.delete('/parametro/:id', async (req, res) => {
   const result = await parametrosService.deleteParametro(req.params.id)
+  res.send(result)
+})
+
+
+//Consulta de valor parametro por id
+app.get('/valorParametro/:id', async (req, res) => {
+  const result = await valorParametrosService.getValorParametro(req.params.id)
+  res.send(result)
+})
+
+//Consulta de todos los valores parametros
+app.post('/valorParametro/getValorParametros', async (req, res) => {
+  const body = req.body
+  const result = await valorParametrosService.getValorParametros(body)
+  res.send(result)
+})
+
+//Create de valor parametro
+app.post('/valorParametro/', async (req, res) => {
+  const body = req.body
+  const result = await valorParametrosService.createValorParametro(body)
+  res.send(result)
+})
+
+//Update de valor parametro
+app.put('/valorParametro/:id', async (req, res) => {
+  const body = req.body
+  const result = await valorParametrosService.updateValorParametro(req.params.id, body)
+  res.send(result)
+})
+
+//Delete de parametro
+app.delete('/valorParametro/:id', async (req, res) => {
+  const result = await valorParametrosService.deleteValorParametro(req.params.id)
   res.send(result)
 })
 
